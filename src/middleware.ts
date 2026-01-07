@@ -1,10 +1,6 @@
 import { clerkMiddleware } from '@clerk/nextjs/server';
 
-// Configure middleware with clock skew tolerance
-// This allows up to 2 minutes of clock difference to prevent JWT timing errors
-export default clerkMiddleware({
-  clockSkewInMs: 120000, // 2 minutes tolerance for clock skew
-});
+export default clerkMiddleware();
 
 export const config = {
   matcher: [
