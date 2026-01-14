@@ -1,20 +1,25 @@
 import { useState } from "react";
-import { Doc, Id } from "../../../../../convex/_generated/dataModel";
+
+import { ChevronRightIcon } from "lucide-react";
+import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
+
+import { cn } from "@/lib/utils";
+
 import {
   useCreateFile,
   useCreateFolder,
-  useDeleteFile,
   useFolderContents,
   useRenameFile,
-} from "../../hooks/use-files";
-import { TreeItemWrapper } from "./tree-item-wrapper";
-import { FileIcon, FolderIcon } from "@react-symbols/icons/utils";
-import { ChevronRightIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { LoadingRow } from "./loading-row";
+  useDeleteFile,
+} from "@/features/projects/hooks/use-files";
+import { useEditor } from "@/features/editor/hooks/use-editor";
+
 import { getItemPadding } from "./constants";
+import { LoadingRow } from "./loading-row";
 import { CreateInput } from "./create-input";
 import { RenameInput } from "./rename-input";
+import { TreeItemWrapper } from "./tree-item-wrapper";
+import { Doc, Id } from "../../../../../convex/_generated/dataModel";
 
 export const Tree = ({
   item,
@@ -29,10 +34,12 @@ export const Tree = ({
   const [isRenaming, setIsRenaming] = useState(false);
   const [creating, setCreating] = useState<"file" | "folder" | null>(null);
 
-  const createFile = useCreateFile();
   const renameFile = useRenameFile();
   const deleteFile = useDeleteFile();
+  const createFile = useCreateFile();
   const createFolder = useCreateFolder();
+
+  const { openFile, closeTab, activeTabId } = useEditor(projectId);
 
   const folderContents = useFolderContents({
     projectId,
@@ -69,13 +76,14 @@ export const Tree = ({
     }
   };
 
-  const startCreating = (type: "file" | "folder") => {
+  const startCreating =(type: "file" | "folder") => {
     setIsOpen(true);
     setCreating(type);
   };
 
   if (item.type === "file") {
     const fileName = item.name;
+    const isActive = activeTabId === item._id;
 
     if (isRenaming) {
       return (
@@ -93,19 +101,19 @@ export const Tree = ({
       <TreeItemWrapper
         item={item}
         level={level}
-        isActive={false}
-        onClick={() => {}}
-        onDoubleClick={() => {}}
+        isActive={isActive}
+        onClick={() => openFile(item._id, { pinned: false })}
+        onDoubleClick={() => openFile(item._id, { pinned: true })}
         onRename={() => setIsRenaming(true)}
         onDelete={() => {
-          //TODO: Close Tab
-          deleteFile({ id: item._id });
+          closeTab(item._id);
+          deleteFile({ id: item._id })
         }}
       >
         <FileIcon fileName={fileName} autoAssign className="size-4" />
         <span className="truncate text-sm">{fileName}</span>
       </TreeItemWrapper>
-    );
+    )
   }
 
   const folderName = item.name;
@@ -121,9 +129,9 @@ export const Tree = ({
         />
         <FolderIcon folderName={folderName} className="size-4" />
       </div>
-      <span className="truncated text-sm">{folderName}</span>
+      <span className="truncate text-sm">{folderName}</span>
     </>
-  );
+  )
 
   if (creating) {
     return (
@@ -155,7 +163,7 @@ export const Tree = ({
           </>
         )}
       </>
-    );
+    )
   }
 
   if (isRenaming) {
@@ -183,7 +191,7 @@ export const Tree = ({
           </>
         )}
       </>
-    );
+    )
   }
 
   return (
@@ -194,8 +202,7 @@ export const Tree = ({
         onClick={() => setIsOpen((value) => !value)}
         onRename={() => setIsRenaming(true)}
         onDelete={() => {
-          //TODO: Close Tab
-          deleteFile({ id: item._id });
+          deleteFile({ id: item._id })
         }}
         onCreateFile={() => startCreating("file")}
         onCreateFolder={() => startCreating("folder")}
