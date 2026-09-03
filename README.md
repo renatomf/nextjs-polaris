@@ -115,69 +115,6 @@ nextjs-polaris/
 
 > Os scripts `SYNC-CLOCK.bat`, `sync-clock.ps1` e `fix-clerk-clock.ps1` presentes na raiz sugerem um workaround conhecido: o Clerk valida tokens com base no relógio do sistema, e esses scripts servem para sincronizar o horário local (comum em ambientes Windows/WSL onde o clock desalinha e quebra a autenticação).
 
-## Pré-requisitos
-
-- Node.js 20+ (compatível com `@types/node ^20`)
-- Um gerenciador de pacotes: `npm`, `yarn`, `pnpm` ou `bun`
-- Conta e projeto configurados em:
-  - [Convex](https://www.convex.dev/) (backend)
-  - [Clerk](https://clerk.com/) (autenticação)
-  - [Google AI Studio](https://ai.google.dev/) (chave de API do Gemini, para `@ai-sdk/google`)
-  - [Firecrawl](https://www.firecrawl.dev/) (chave de API, se o scraping estiver em uso)
-  - [Sentry](https://sentry.io/) (opcional, para monitoramento de erros)
-  - [Inngest](https://www.inngest.com/) (para jobs em background)
-
-## Variáveis de ambiente
-
-Crie um arquivo `.env.local` na raiz com (nomes exatos podem variar — confira `src/` e `convex/` para confirmar):
-
-```bash
-# Clerk
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
-
-# Convex
-NEXT_PUBLIC_CONVEX_URL=
-CONVEX_DEPLOYMENT=
-
-# Google AI (Gemini)
-GOOGLE_GENERATIVE_AI_API_KEY=
-
-# Firecrawl
-FIRECRAWL_API_KEY=
-
-# Inngest
-INNGEST_EVENT_KEY=
-INNGEST_SIGNING_KEY=
-
-# Sentry
-SENTRY_DSN=
-NEXT_PUBLIC_SENTRY_DSN=
-```
-
-## Instalação e execução local
-
-```bash
-# 1. Clone o repositório
-git clone https://github.com/renatomf/nextjs-polaris.git
-cd nextjs-polaris
-
-# 2. Instale as dependências
-npm install
-# ou: yarn install / pnpm install / bun install
-
-# 3. Configure o .env.local (veja seção acima)
-
-# 4. Suba o backend Convex (em um terminal separado)
-npx convex dev
-
-# 5. Rode o servidor de desenvolvimento
-npm run dev
-# ou: yarn dev / pnpm dev / bun dev
-```
-
-Abra [http://localhost:3000](http://localhost:3000) no navegador.
-
 ## Scripts disponíveis
 
 | Comando | Descrição |
@@ -187,26 +124,3 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador.
 | `npm run start` | Inicia o servidor em modo produção |
 | `npm run lint` | Roda o ESLint no projeto |
 
-## Deploy
-
-O projeto pode ser publicado facilmente na [Vercel](https://vercel.com/), criadora do Next.js. Lembre-se de configurar todas as variáveis de ambiente listadas acima no painel do projeto, além de apontar o deployment do Convex de produção.
-
-## Roadmap / possíveis próximos passos
-
-- [ ] Documentar o schema do Convex (`convex/schema.ts`)
-- [ ] Detalhar as rotas e páginas do App Router em `src/app`
-- [ ] Explicar o fluxo do agente de IA (prompts, ferramentas, uso do Firecrawl)
-- [ ] Adicionar testes automatizados
-- [ ] Definir licença do projeto
-
-## Contribuindo
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nome-da-feature`)
-3. Commit suas mudanças (`git commit -m 'feat: minha nova feature'`)
-4. Push para a branch (`git push origin feature/nome-da-feature`)
-5. Abra um Pull Request
-
-## Autor
-
-Feito por [@renatomf](https://github.com/renatomf).
