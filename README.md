@@ -11,7 +11,7 @@
 
 ## Sobre o projeto
 
-**Polaris** é uma aplicação web construída com **Next.js 16 (App Router)** e **React 19** que reproduz a experiência de um editor de código assistido por IA, no estilo do Cursor. O nome interno do pacote no `package.json` é `nextjs-cursor-clone`, o que confirma o objetivo do projeto: oferecer um ambiente de edição de código no navegador com um agente de IA capaz de ler, sugerir e escrever código, rodando sobre uma stack moderna full-stack (Next.js + Convex + Clerk + Inngest).
+**Polaris** é uma aplicação web construída com **Next.js 16 (App Router)** e **React 19** que reproduz a experiência de um editor de código assistido por IA, no estilo do Cursor. O objetivo do projeto: oferecer um ambiente de edição de código no navegador com um agente de IA capaz de ler, sugerir e escrever código, rodando sobre uma stack moderna full-stack (Next.js + Convex + Clerk + Inngest).
 
 > **Nota de transparência:** este README foi gerado com base no `package.json`, na listagem de pastas do repositório (`convex/`, `public/`, `src/`) e nos arquivos de configuração visíveis publicamente no GitHub. O GitHub bloqueou a navegação automatizada pela árvore completa de `src/`, então alguns detalhes finos de funcionalidades (telas, rotas exatas, nomes de componentes) foram inferidos a partir das dependências instaladas. Recomendo revisar e ajustar as seções abaixo antes de publicar.
 
